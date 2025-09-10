@@ -1,6 +1,5 @@
 import 'package:flash_chat_flutter/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flash_chat_flutter/screens/welcome_screen.dart';
 import 'package:flash_chat_flutter/screens/login_screen.dart';
 import 'package:flash_chat_flutter/screens/registration_screen.dart';
 import 'package:flash_chat_flutter/screens/chat_screen.dart';
