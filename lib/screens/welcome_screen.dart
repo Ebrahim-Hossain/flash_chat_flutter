@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flash_chat_flutter/screens/login_screen.dart';
 import 'package:flash_chat_flutter/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +13,29 @@ class WelcomeScreen extends StatefulWidget {
   State<WelcomeScreen> createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> {
+class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProviderStateMixin {
+
+  late AnimationController controller;
+  late Animation animation;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    controller = AnimationController(
+        vsync: this,
+      duration: Duration(seconds: 1),
+    );
+    animation = CurvedAnimation(parent: controller, curve: Curves.decelerate);
+    controller.forward();
+    controller.addListener(() {
+      setState(() {
+
+      });
+      log('${animation.value}');
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +52,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 Hero(
                   tag: 'logo',
                   child: SizedBox(
-                    height: 80.0,
+                    height: animation.value,
                     child: Image.asset('images/logo.png'),
                   ),
                 ),
