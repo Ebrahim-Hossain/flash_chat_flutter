@@ -1,10 +1,8 @@
-import 'dart:developer';
-
 import 'package:flash_chat_flutter/screens/login_screen.dart';
 import 'package:flash_chat_flutter/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
-
-import '../refactor_button.dart';
+import 'components/refactor_button.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -58,9 +56,17 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                     child: Image.asset('images/logo.png'),
                   ),
                 ),
-                Text(
-                  'Flash Chat',
-                  style: TextStyle(fontSize: 45.0, fontWeight: FontWeight.w900),
+                AnimatedTextKit(
+                  animatedTexts: [
+                    TypewriterAnimatedText(
+                      'Flash Chat',
+                      textStyle: TextStyle(
+                        fontSize: 45.0,
+                        fontWeight: FontWeight.w900,
+                      ),
+                      speed: Duration(milliseconds: 100),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -68,12 +74,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             RefactorButton(
               color: Colors.lightBlueAccent,
               text: 'Log In',
-              routeId: LoginScreen.id,
+              function:() {Navigator.pushNamed(context, LoginScreen.id);},
             ),
             RefactorButton(
               color: Colors.blueAccent,
               text: 'Register',
-              routeId: RegistrationScreen.id,
+              function:() {Navigator.pushNamed(context, RegistrationScreen.id);},
             ),
           ],
         ),

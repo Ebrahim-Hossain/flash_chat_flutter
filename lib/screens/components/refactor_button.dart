@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 
 class RefactorButton extends StatelessWidget {
-  const RefactorButton({super.key,required this.color, required this.text, required this.routeId,});
+  const RefactorButton({super.key,required this.color, required this.text,required this.function,});
   final Color color;
   final String text;
-  final String routeId;
+  final VoidCallback function;
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +16,7 @@ class RefactorButton extends StatelessWidget {
         color: color,
         borderRadius: BorderRadius.circular(30.0),
         child: MaterialButton(
-          onPressed: () {
-            //Go to login screen.
-            Navigator.pushNamed(context, routeId);
-          },
+          onPressed: function,
           minWidth: 200.0,
           height: 42.0,
           child: Text(text),
