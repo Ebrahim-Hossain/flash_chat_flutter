@@ -4,6 +4,8 @@ import 'package:flash_chat_flutter/screens/login_screen.dart';
 import 'package:flash_chat_flutter/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../refactor_button.dart';
+
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
 
@@ -13,8 +15,8 @@ class WelcomeScreen extends StatefulWidget {
   State<WelcomeScreen> createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProviderStateMixin {
-
+class _WelcomeScreenState extends State<WelcomeScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController controller;
   late Animation animation;
 
@@ -22,26 +24,24 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
   void initState() {
     // TODO: implement initState
     controller = AnimationController(
-        vsync: this,
+      vsync: this,
       duration: Duration(seconds: 2),
     );
-    animation = ColorTween(begin: Colors.white,end: Colors.blue).animate(controller);
+    animation = ColorTween(
+      begin: Colors.white,
+      end: Colors.blue,
+    ).animate(controller);
     controller.forward();
-
     controller.addListener(() {
-      setState(() {
-
-      });
-      log('${animation.value}');
+      setState(() {});
     });
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: animation.value,
+      backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
@@ -60,53 +60,20 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                 ),
                 Text(
                   'Flash Chat',
-                  style: TextStyle(
-                    fontSize: 45.0,
-                    fontWeight: FontWeight.w900,
-                  ),
+                  style: TextStyle(fontSize: 45.0, fontWeight: FontWeight.w900),
                 ),
               ],
             ),
-            SizedBox(
-              height: 48.0,
+            SizedBox(height: 48.0),
+            RefactorButton(
+              color: Colors.lightBlueAccent,
+              text: 'Log In',
+              routeId: LoginScreen.id,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
-                elevation: 5.0,
-                color: Colors.lightBlueAccent,
-                borderRadius: BorderRadius.circular(30.0),
-                child: MaterialButton(
-                  onPressed: () {
-                    //Go to login screen.
-                    Navigator.pushNamed(context, LoginScreen.id);
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: Text(
-                    'Log In',
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
-                color: Colors.blueAccent,
-                borderRadius: BorderRadius.circular(30.0),
-                elevation: 5.0,
-                child: MaterialButton(
-                  onPressed: () {
-                    //Go to registration screen.
-                    Navigator.pushNamed(context, RegistrationScreen.id);
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: Text(
-                    'Register',
-                  ),
-                ),
-              ),
+            RefactorButton(
+              color: Colors.blueAccent,
+              text: 'Register',
+              routeId: RegistrationScreen.id,
             ),
           ],
         ),
