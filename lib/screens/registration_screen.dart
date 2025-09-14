@@ -34,6 +34,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               onChanged: (value) {
                 //Do something with the user input.
               },
+              style: TextStyle(color: Colors.black54),
               decoration: kTextFieldDecoration.copyWith(
                 hintText: 'Enter your email',
               ),
@@ -43,6 +44,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               onChanged: (value) {
                 //Do something with the user input.
               },
+              style: TextStyle(color: Colors.black54),
               decoration: kTextFieldDecoration.copyWith(
                 hintText: 'Enter your password',
               ),
