@@ -248,6 +248,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.16.0"
+  overlay_adaptive_progress_hub:
+    dependency: "direct main"
+    description:
+      name: overlay_adaptive_progress_hub
+      sha256: "9d84b565f08e0b5366debb4f668eac772a3ff1c170e6a1332bd302a921ff086b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   path:
     dependency: transitive
     description:
