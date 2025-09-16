@@ -38,10 +38,18 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  Future<void> getMessages() async {
-   var messages = await _fireStore.collection('messages').get();
-    for (var message in messages.docs){
-      log("$message");
+  // Future<void> getMessages() async {
+  //  var messages = await _fireStore.collection('messages').get();
+  //   for (var message in messages.docs){
+  //     log("${message.data()}");
+  //   }
+  // }
+  Future<void> getSteam() async {
+    var messages = _fireStore.collection('messages').snapshots();
+    await for (var snapShots in _fireStore.collection('messages').snapshots()){
+      for (var message in snapShots.docs){
+        log("${message.data()}");
+      }
     }
   }
 
@@ -54,7 +62,7 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
-                getMessages();
+                getSteam();
                 // _auth.signOut();
                 // Navigator.pop(context);
               }),
