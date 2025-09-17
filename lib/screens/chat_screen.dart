@@ -55,6 +55,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: null,
         actions: <Widget>[
@@ -74,24 +75,26 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            StreamBuilder(
-                stream: _fireStore.collection('messages').snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    List<Widget> messageWidgets = [];
-                    final messages = snapshot.data?.docs;
-                    for (var message in messages!) {
-                      final messageText = message.data()['text'];
-                      final messageSender = message.data()['sender'];
-                      final messageWidget = Text('$messageText from $messageSender');
-                      messageWidgets.add(messageWidget);
+            Expanded(
+              child: StreamBuilder(
+                  stream: _fireStore.collection('messages').snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      List<Widget> messageWidgets = [];
+                      final messages = snapshot.data?.docs;
+                      for (var message in messages!) {
+                        final messageText = message.data()['text'];
+                        final messageSender = message.data()['sender'];
+                        final messageWidget = Text('$messageText from $messageSender');
+                        messageWidgets.add(messageWidget);
+                      }
+                      return Column(children: messageWidgets,);
                     }
-                    return Column(children: messageWidgets,);
-                  }
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                },
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+              ),
             ),
             Container(
               decoration: kMessageContainerDecoration,
@@ -123,6 +126,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 ],
               ),
             ),
+            SizedBox(height: 20,)
           ],
         ),
       ),
