@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flash_chat_flutter/current_user.dart';
 import 'package:flash_chat_flutter/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -17,10 +18,11 @@ class ChatBuilder extends StatelessWidget {
           if (snapshot.hasData) {
             List<Widget> messageWidgets = [];
             final messages = snapshot.data?.docs;
+
             for (var message in messages!) {
               final messageText = message.data()['text'];
               final messageSender = message.data()['sender'];
-              final currentUser = logInUser?.email;
+              final currentUser = CurrentUser.logInUser?.email;
               final messageWidget = Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 15,
@@ -35,6 +37,7 @@ class ChatBuilder extends StatelessWidget {
               messageWidgets.add(messageWidget);
             }
             return ListView(
+              reverse: true,
               padding: EdgeInsetsGeometry.symmetric(
                 vertical: 10,
                 horizontal: 20,
