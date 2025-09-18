@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 import 'ChatBuilder.dart';
 
+
+User? logInUser;
+
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
 
@@ -17,9 +20,10 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final _auth = FirebaseAuth.instance;
-  User? logInUser;
+
   late String text;
   final _fireStore = FirebaseFirestore.instance;
+  TextEditingController textFieldText = TextEditingController();
 
   @override
   void initState() {
@@ -85,6 +89,8 @@ class _ChatScreenState extends State<ChatScreen> {
                 children: <Widget>[
                   Expanded(
                     child: TextField(
+                      controller: textFieldText,
+                      style: TextStyle(color: Colors.black54),
                       onChanged: (value) {
                         //Do something with the user input.
                         text = value;
@@ -94,6 +100,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                   TextButton(
                     onPressed: () {
+                      textFieldText.clear();
                       //Implement send functionality.
                       _fireStore.collection('messages').add({
                         'sender': logInUser?.email,

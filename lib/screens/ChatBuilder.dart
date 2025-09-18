@@ -1,12 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flash_chat_flutter/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 
-
 class ChatBuilder extends StatelessWidget {
-  const ChatBuilder({
-    super.key,
-    required FirebaseFirestore fireStore,
-  }) : _fireStore = fireStore;
+  const ChatBuilder({super.key, required FirebaseFirestore fireStore})
+    : _fireStore = fireStore;
 
   final FirebaseFirestore _fireStore;
 
@@ -22,51 +20,16 @@ class ChatBuilder extends StatelessWidget {
             for (var message in messages!) {
               final messageText = message.data()['text'];
               final messageSender = message.data()['sender'];
+              final currentUser = logInUser?.email;
               final messageWidget = Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 15,
                   horizontal: 20,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: EdgeInsetsGeometry.directional(start: 15) ,
-                      child: Text(
-                        '$messageSender',
-                        style: TextStyle(
-                          color: Colors.black38,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 2),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: Colors.lightBlueAccent,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black54,
-                            spreadRadius: 0.5,
-                            blurRadius: 8,
-                            offset: Offset(1, 4),
-                          ),
-                        ],
-                      ),
-                      padding: EdgeInsetsGeometry.symmetric(
-                        vertical: 10,
-                        horizontal: 20,
-                      ),
-                      child: Text(
-                        '$messageText',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
+                child: MessageBubble(
+                  messageSender: messageSender,
+                  messageText: messageText,
+                  isMe: messageSender == currentUser,
                 ),
               );
               messageWidgets.add(messageWidget);
@@ -76,17 +39,65 @@ class ChatBuilder extends StatelessWidget {
                 vertical: 10,
                 horizontal: 20,
               ),
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: messageWidgets,
-                ),
-              ],
+              children: messageWidgets,
             );
           }
           return Center(child: CircularProgressIndicator());
         },
       ),
+    );
+  }
+}
+
+class MessageBubble extends StatelessWidget {
+  const MessageBubble({
+    super.key,
+    required this.messageSender,
+    required this.messageText,
+    required this.isMe,
+  });
+
+  final dynamic messageSender;
+  final dynamic messageText;
+  final bool isMe;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+      children: [
+        Text(
+          '$messageSender',
+          style: TextStyle(color: Colors.black38, fontSize: 15),
+        ),
+        SizedBox(height: 2),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: isMe ? BorderRadius.only(
+                topLeft: Radius.circular(30),
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30),
+            ) : BorderRadius.only(
+              topRight: Radius.circular(30),
+              bottomLeft: Radius.circular(30),
+              bottomRight: Radius.circular(30),
+            ),
+            color: isMe ? Colors.lightBlueAccent : Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black54,
+                spreadRadius: 0.5,
+                blurRadius: 8,
+                offset: Offset(1, 4),
+              ),
+            ],
+          ),
+          padding: EdgeInsetsGeometry.symmetric(vertical: 10, horizontal: 20),
+          child: Text(
+            '$messageText',
+            style: TextStyle(fontSize: 18, color: isMe ? Colors.white : Colors.black54),
+          ),
+        ),
+      ],
     );
   }
 }
