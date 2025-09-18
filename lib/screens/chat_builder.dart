@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flash_chat_flutter/current_user.dart';
-import 'package:flash_chat_flutter/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 
 class ChatBuilder extends StatelessWidget {
@@ -13,9 +12,12 @@ class ChatBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: StreamBuilder(
-        stream: _fireStore.collection('messages').snapshots(),
+        stream: _fireStore.collection('messages').orderBy('timestamp', descending: true) // newest first
+            .snapshots(),
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          if (!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
+          }
             List<Widget> messageWidgets = [];
             final messages = snapshot.data?.docs;
 
@@ -44,8 +46,6 @@ class ChatBuilder extends StatelessWidget {
               ),
               children: messageWidgets,
             );
-          }
-          return Center(child: CircularProgressIndicator());
         },
       ),
     );

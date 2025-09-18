@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flash_chat_flutter/current_user.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
-import 'ChatBuilder.dart';
+import 'chat_builder.dart';
 
 
 
@@ -92,6 +92,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       _fireStore.collection('messages').add({
                         'sender': CurrentUser.logInUser?.email,
                         'text': text,
+                        'timestamp': FieldValue.serverTimestamp(),
                       });
                     },
                     child: Text('Send', style: kSendButtonTextStyle),
