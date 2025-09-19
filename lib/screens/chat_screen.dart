@@ -1,11 +1,13 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat_flutter/current_user.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import 'chat_builder.dart';
 
 
+final _auth = FirebaseAuth.instance;
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
